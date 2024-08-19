@@ -1,3 +1,3 @@
 export const Author = () => {
-  return <small>Made with 💖 by Cy</small>;
+  return <small className="font-semibold">Made with 💖 by Cy</small>;
 };

@@ -32,7 +32,7 @@ export function Chat() {
 
   return (
     <main className="flex flex-col w-full h-screen max-h-dvh bg-background">
-      <header className="py-4 mb-4 border-b w-full max-w-3xl mx-auto flex justify-between items-center">
+      <header className="py-4 mb-4 border-b w-full max-w-3xl mx-auto flex justify-between items-start">
         <div className="flex flex-col items-start">
           <h1 className="text-2xl font-bold">Gee Chatbot</h1>
           <Author />
@@ -51,7 +51,7 @@ export function Chat() {
           {messages.map((m, index) => (
             <>
               {m.role === "user" ? (
-                <li key={index} className="flex flex-row">
+                <li key={index} className="flex flex-row-reverse">
                   <div className="rounded-xl p-4 bg-background shadow-md flex">
                     <p className="text-primary">
                       <strong>You: </strong>
@@ -61,7 +61,7 @@ export function Chat() {
                 </li>
               ) : (
                 m.content && (
-                  <li key={index} className="flex flex-row-reverse">
+                  <li key={index} className="flex flex-row">
                     <div className="rounded-xl p-4 bg-background shadow-md flex w-3/4">
                       <p>
                         <strong>Gee Chatbot: </strong>
@@ -87,6 +87,7 @@ export function Chat() {
             type="text"
             value={input}
             onChange={handleInputChange}
+            required
           />
           <Button className="ml-2" type="submit">
             Submit
