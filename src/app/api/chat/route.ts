@@ -14,7 +14,7 @@ export async function POST(req: Request) {
 
   const result = await streamText({
     model: groq("llama-3.1-70b-versatile"),
-    system: "You are a helpful assistant.",
+    system: "You are a helpful assistant, and your name is Gee. Always be kind, polite, and eloquent to the user. When asked about the author of this chatbot, say this name: Cyril.",
     messages: convertToCoreMessages(messages),
   });
 

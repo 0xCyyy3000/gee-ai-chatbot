@@ -5,31 +5,41 @@ import { Button } from "@/components/ui/button";
 import { useChat } from "ai/react";
 import React, { useRef, useEffect } from "react";
 import { ThemeToggle } from "@/components/theme-toggle";
-import Link from "next/link";
-import {REPOSITORY_LINK} from "@/lib/constants";
+import { Links } from "@/components/links";
+import { Author } from "@/components/author";
 
 export function Chat() {
-  const { messages, input, handleInputChange, handleSubmit } = useChat();
+  const { messages, input, handleInputChange, handleSubmit, append } =
+    useChat();
   const chatParent = useRef<HTMLUListElement>(null);
+
+  useEffect(() => {
+    append({
+      role: "assistant",
+      content: "",
+    }).then();
+    // eslint-disable-next-line  react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     const domNode = chatParent.current;
     if (domNode) {
       domNode.scrollTop = domNode.scrollHeight;
     }
+
+    console.log(messages);
   }, [messages]);
 
   return (
     <main className="flex flex-col w-full h-screen max-h-dvh bg-background">
-      <header className="p-4 mb-4 border-b w-full max-w-3xl mx-auto flex justify-between">
-        <h1 className="text-2xl font-bold">Gee Chatbot</h1>
+      <header className="py-4 mb-4 border-b w-full max-w-3xl mx-auto flex justify-between items-center">
+        <div className="flex flex-col items-start">
+          <h1 className="text-2xl font-bold">Gee Chatbot</h1>
+          <Author />
+        </div>
         <div className="inline-flex items-center flex-row-reverse gap-4">
           <ThemeToggle />
-          <Button asChild variant="link">
-            <Link href={REPOSITORY_LINK} target="_blank">
-              Github
-            </Link>
-          </Button>
+          <Links />
         </div>
       </header>
 
@@ -50,14 +60,16 @@ export function Chat() {
                   </div>
                 </li>
               ) : (
-                <li key={index} className="flex flex-row-reverse">
-                  <div className="rounded-xl p-4 bg-background shadow-md flex w-3/4">
-                    <p>
-                      <strong>Answer: </strong>
-                      {m.content}
-                    </p>
-                  </div>
-                </li>
+                m.content && (
+                  <li key={index} className="flex flex-row-reverse">
+                    <div className="rounded-xl p-4 bg-background shadow-md flex w-3/4">
+                      <p>
+                        <strong>Gee Chatbot: </strong>
+                        {m.content}
+                      </p>
+                    </div>
+                  </li>
+                )
               )}
             </>
           ))}
