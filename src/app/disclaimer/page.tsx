@@ -1,7 +1,14 @@
+import type {Metadata} from "next";
+
+export const metadata: Metadata = {
+  title: "Disclaimer",
+  description: "Terms and conditions",
+};
+
 export default function Disclaimer() {
   return (
     <div className="min-h-screen w-full bg-secondary p-16 flex flex-col gap-3">
-      <p className="text-xl font-black">Getting Started</p>
+      <p className="text-xl font-black">Gee Chatbot</p>
       <p>
         This AI chatbot is designed for educational purposes only. The
         information and responses provided by this chatbot are intended to
