@@ -1,0 +1,1 @@
+export const REPOSITORY_LINK: string = process.env.NEXT_PUBLIC_REPOSITORY_LINK || ""

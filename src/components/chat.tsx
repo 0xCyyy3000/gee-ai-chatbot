@@ -6,6 +6,7 @@ import { useChat } from "ai/react";
 import React, { useRef, useEffect } from "react";
 import { ThemeToggle } from "@/components/theme-toggle";
 import Link from "next/link";
+import {REPOSITORY_LINK} from "@/lib/constants";
 
 export function Chat() {
   const { messages, input, handleInputChange, handleSubmit } = useChat();
@@ -25,7 +26,7 @@ export function Chat() {
         <div className="inline-flex items-center flex-row-reverse gap-4">
           <ThemeToggle />
           <Button asChild variant="link">
-            <Link href="#">
+            <Link href={REPOSITORY_LINK} target="_blank">
               Github
             </Link>
           </Button>
