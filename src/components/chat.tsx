@@ -1,24 +1,85 @@
-'use client';
+"use client";
 
-import {useChat} from 'ai/react';
-import {Button} from "@/components/ui/button"
-import React from "react";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { useChat } from "ai/react";
+import React, { useRef, useEffect } from "react";
+import { ThemeToggle } from "@/components/theme-toggle";
+import Link from "next/link";
 
-export const Chat = (): React.ReactNode => {
-    const {messages, input, handleInputChange, handleSubmit} = useChat();
+export function Chat() {
+  const { messages, input, handleInputChange, handleSubmit } = useChat();
+  const chatParent = useRef<HTMLUListElement>(null);
 
-    return (
-        <div className="bg-slate-200 h-screen">
-            {messages.map(message => (
-                <div key={message.id}>
-                    {message.role === 'user' ? 'User: ' : 'AI: '}
-                    {message.content}
-                </div>
-            ))}
-            <form onSubmit={handleSubmit}>
-                <input className="text-black" name="prompt" value={input} onChange={handleInputChange}/>
-                <Button type="submit">Submit</Button>
-            </form>
+  useEffect(() => {
+    const domNode = chatParent.current;
+    if (domNode) {
+      domNode.scrollTop = domNode.scrollHeight;
+    }
+  }, [messages]);
+
+  return (
+    <main className="flex flex-col w-full h-screen max-h-dvh bg-background">
+      <header className="p-4 mb-4 border-b w-full max-w-3xl mx-auto flex justify-between">
+        <h1 className="text-2xl font-bold">Gee Chatbot</h1>
+        <div className="inline-flex items-center flex-row-reverse gap-4">
+          <ThemeToggle />
+          <Button asChild variant="link">
+            <Link href="#">
+              Github
+            </Link>
+          </Button>
         </div>
-    );
+      </header>
+
+      <section className="container px-0 flex flex-col flex-grow gap-4 mx-auto max-w-3xl">
+        <ul
+          ref={chatParent}
+          className="h-1 p-4 flex-grow bg-muted/50 rounded-lg overflow-y-auto flex flex-col gap-4"
+        >
+          {messages.map((m, index) => (
+            <>
+              {m.role === "user" ? (
+                <li key={index} className="flex flex-row">
+                  <div className="rounded-xl p-4 bg-background shadow-md flex">
+                    <p className="text-primary">
+                      <strong>You: </strong>
+                      {m.content}
+                    </p>
+                  </div>
+                </li>
+              ) : (
+                <li key={index} className="flex flex-row-reverse">
+                  <div className="rounded-xl p-4 bg-background shadow-md flex w-3/4">
+                    <p>
+                      <strong>Answer: </strong>
+                      {m.content}
+                    </p>
+                  </div>
+                </li>
+              )}
+            </>
+          ))}
+        </ul>
+      </section>
+
+      <section className="p-4">
+        <form
+          onSubmit={handleSubmit}
+          className="flex w-full max-w-3xl mx-auto items-center"
+        >
+          <Input
+            className="flex-1 min-h-[40px]"
+            placeholder="Ask me a question"
+            type="text"
+            value={input}
+            onChange={handleInputChange}
+          />
+          <Button className="ml-2" type="submit">
+            Submit
+          </Button>
+        </form>
+      </section>
+    </main>
+  );
 }
